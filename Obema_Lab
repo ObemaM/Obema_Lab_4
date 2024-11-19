@@ -6,9 +6,10 @@ namespace Obema_Lab
     {
         static void Main(string[] args)
         {
+
             int q = 0, n;
             Console.WriteLine("Введите размер массива: ");
-            while (!int.TryParse(Console.ReadLine(), out n) || ((0 >= n) || (n > 100)))
+            while (!int.TryParse(Console.ReadLine(), out n) || ((0 > n) || (n > 100)))
             {
                 Console.WriteLine("Некорректный ввод. Размер массива должен быть целым положительным числом, которое меньше или равно 100.");
                 Console.WriteLine("Введите размер массива: ");
@@ -92,15 +93,44 @@ namespace Obema_Lab
                         Console.WriteLine("\nРезультат удаления:");
                         for (int i = 0; i < NewN; i++) Console.Write(DeleteArray[i] + " ");
                         Console.WriteLine();
+
+                        Console.WriteLine("\nС каким из массивов продолжить работу?");
+                        Console.WriteLine("1. Продолжить с измененным массивом");
+                        Console.WriteLine("2. Продолжить с массивом до проведения операции.");
+                        Console.Write("Ваш выбор (1 или 2): ");
+
+                        int how;
+                        while (!int.TryParse(Console.ReadLine(), out how) || (how != 1 && how != 2))
+                        {
+                            Console.WriteLine("Некорректный ввод. Выберите 1 или 2.");
+                            Console.Write("Ваш выбор (1 или 2): ");
+                        }
+
+                        switch (how)
+                        {
+                            case 1:
+                                n = n / 2;
+                                MainArray = DeleteArray;
+                                Console.WriteLine("\nОсновной массив:");
+                                for (int i = 0; i < n; i++) Console.Write(MainArray[i] + " ");
+                                Console.WriteLine();
+                                break;
+                            case 2:
+                                Console.WriteLine("\nОсновной массив:");
+                                for (int i = 0; i < n; i++) Console.Write(MainArray[i] + " ");
+                                Console.WriteLine();
+                                break;
+                        }
                         break;
                     case 2:
                         int b;
                         Console.WriteLine("\nВведите номер места в массиве, куда будет дописано число: ");
-                        while (!int.TryParse(Console.ReadLine(), out b) || ((0 >= b) || (b > n)))
+                        while (!int.TryParse(Console.ReadLine(), out b) || ((0 >= b) || (b > n+1)))
                         {
-                            Console.WriteLine("Некорректный ввод. Размер массива должен быть целым положительным числом, которое меньше или равно количеству элементов в массиве.");
+                            Console.WriteLine("Некорректный ввод. Размер массива должен быть целым положительным числом, которое не больше, чем на 1 количества элементов в массиве.");
                             Console.WriteLine("Введите номер места в массиве, куда будет дописано число: ");
                         }
+
                         Console.WriteLine("\nВыберите метод выбора числа для добавления в массив:");
                         Console.WriteLine("1. Случайное число");
                         Console.WriteLine("2. Ввод с клавиатуры");
@@ -135,6 +165,33 @@ namespace Obema_Lab
                                 Console.WriteLine("\nРезультат добавления:");
                                 for (int i = 0; i <= n; i++) Console.Write(AddArray[i] + " ");
                                 Console.WriteLine();
+
+                                Console.WriteLine("\nС каким из массивов продолжить работу?");
+                                Console.WriteLine("1. Продолжить с измененным массивом");
+                                Console.WriteLine("2. Продолжить с массивом до проведения операции.");
+                                Console.Write("Ваш выбор (1 или 2): ");
+
+                                while (!int.TryParse(Console.ReadLine(), out how) || (how != 1 && how != 2))
+                                {
+                                    Console.WriteLine("Некорректный ввод. Выберите 1 или 2.");
+                                    Console.Write("Ваш выбор (1 или 2): ");
+                                }
+
+                                switch (how)
+                                {
+                                    case 1:
+                                        n++;
+                                        MainArray = AddArray;
+                                        Console.WriteLine("\nОсновной массив:");
+                                        for (int i = 0; i < n; i++) Console.Write(MainArray[i] + " ");
+                                        Console.WriteLine();
+                                        break;
+                                    case 2:
+                                        Console.WriteLine("\nОсновной массив:");
+                                        for (int i = 0; i < n; i++) Console.Write(MainArray[i] + " ");
+                                        Console.WriteLine();
+                                        break;
+                                }
                                 break;
                             case 2:
                                 Console.Write($"\nВведите число для добавления в массив: ");
@@ -162,6 +219,33 @@ namespace Obema_Lab
                                 Console.WriteLine("\nРезультат добавления:");
                                 for (int i = 0; i <= n; i++) Console.Write(AddArray[i] + " ");
                                 Console.WriteLine();
+
+                                Console.WriteLine("\nС каким из массивов продолжить работу?");
+                                Console.WriteLine("1. Продолжить с измененным массивом");
+                                Console.WriteLine("2. Продолжить с массивом до проведения операции.");
+                                Console.Write("Ваш выбор (1 или 2): ");
+
+                                while (!int.TryParse(Console.ReadLine(), out how) || (how != 1 && how != 2))
+                                {
+                                    Console.WriteLine("Некорректный ввод. Выберите 1 или 2.");
+                                    Console.Write("Ваш выбор (1 или 2): ");
+                                }
+                                
+                                switch (how)
+                                {
+                                    case 1:
+                                        n++;
+                                        MainArray = AddArray;
+                                        Console.WriteLine("\nОсновной массив:");
+                                        for (int i = 0; i < n; i++) Console.Write(MainArray[i] + " ");
+                                        Console.WriteLine();
+                                        break;
+                                    case 2:
+                                        Console.WriteLine("\nОсновной массив:");
+                                        for (int i = 0; i < n; i++) Console.Write(MainArray[i] + " ");
+                                        Console.WriteLine();
+                                        break;
+                                }
                                 break;
                         }
                         break;
@@ -177,6 +261,32 @@ namespace Obema_Lab
                         Console.WriteLine("\nПеревернутый массив:");
                         for (int i = 0; i < n; i++) Console.Write(ReverseArray[i] + " ");
                         Console.WriteLine();
+
+                        Console.WriteLine("\nС каким из массивов продолжить работу?");
+                        Console.WriteLine("1. Продолжить с измененным массивом");
+                        Console.WriteLine("2. Продолжить с массивом до проведения операции.");
+                        Console.Write("Ваш выбор (1 или 2): ");
+
+                        while (!int.TryParse(Console.ReadLine(), out how) || (how != 1 && how != 2))
+                        {
+                            Console.WriteLine("Некорректный ввод. Выберите 1 или 2.");
+                            Console.Write("Ваш выбор (1 или 2): ");
+                        }
+
+                        switch (how)
+                        {
+                            case 1:
+                                MainArray = ReverseArray;
+                                Console.WriteLine("\nОсновной массив:");
+                                for (int i = 0; i < n; i++) Console.Write(MainArray[i] + " ");
+                                Console.WriteLine();
+                                break;
+                            case 2:
+                                Console.WriteLine("\nОсновной массив:");
+                                for (int i = 0; i < n; i++) Console.Write(MainArray[i] + " ");
+                                Console.WriteLine();
+                                break;
+                        }
                         break;
                     case 4:
                         double sum = 0;
@@ -204,11 +314,16 @@ namespace Obema_Lab
                                 Console.WriteLine($"Количество сравнений для нахождения первого числа: {count}");
                             }
                             else
-                            {
-                                Console.WriteLine($"\nЧисло {target} не найдено в массиве.");
-                                Console.WriteLine($"Количество сравнений: {count}");
+                            {   
+                                if (n == 0)
+                                    Console.WriteLine($"\nЧисло не найдено. В массиве нет чисел.");
+                                else
+                                {
+                                    Console.WriteLine($"\nЧисло {target} не найдено в массиве.");
+                                    Console.WriteLine($"Количество сравнений: {count}");
+                                }
                             }
-                            break;
+                        break;
                     case 5: 
                         double[] SortArray = MainArray;
 
@@ -233,6 +348,32 @@ namespace Obema_Lab
                         Console.WriteLine("\nРезультат сортировки:");
                         for (int i = 0; i < n; i++) Console.Write(SortArray[i] + " ");
                         Console.WriteLine();
+
+                        Console.WriteLine("\nС каким из массивов продолжить работу?");
+                        Console.WriteLine("1. Продолжить с измененным массивом");
+                        Console.WriteLine("2. Продолжить с массивом до проведения операции.");
+                        Console.Write("Ваш выбор (1 или 2): ");
+
+                        while (!int.TryParse(Console.ReadLine(), out how) || (how != 1 && how != 2))
+                        {
+                            Console.WriteLine("Некорректный ввод. Выберите 1 или 2.");
+                            Console.Write("Ваш выбор (1 или 2): ");
+                        }
+
+                        switch (how)
+                        {
+                            case 1:
+                                MainArray = SortArray;
+                                Console.WriteLine("\nОсновной массив:");
+                                for (int i = 0; i < n; i++) Console.Write(MainArray[i] + " ");
+                                Console.WriteLine();
+                                break;
+                            case 2:
+                                Console.WriteLine("\nОсновной массив:");
+                                for (int i = 0; i < n; i++) Console.Write(MainArray[i] + " ");
+                                Console.WriteLine();
+                                break;
+                        }
                         break;
                     case 6:
                         Console.Write($"\nВведите число для поиска в массиве: ");
@@ -295,8 +436,13 @@ namespace Obema_Lab
                         }
                         else
                         {
-                            Console.WriteLine($"\nЧисло {target} не найдено в массиве.");
-                            Console.WriteLine($"Количество сравнений: {comparisons}");
+                            if (n == 0)
+                                Console.WriteLine($"\nЧисло не найдено. В массиве нет чисел.");
+                            else
+                            {
+                                Console.WriteLine($"\nЧисло {target} не найдено в массиве.");
+                                Console.WriteLine($"Количество сравнений: {comparisons}");
+                            }
                         }
                         break;
                     case 7:
