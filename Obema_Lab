@@ -1,231 +1,262 @@
-
 using System;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace Obema_Lab
 {
     class Program_4
     {
-        static void Main(string[] args)
+        static void ShakerSort(double[] Array, int n)
         {
+            double[] ShakerArray = Array.ToArray();
 
-            int q = 2, n;
-            Console.WriteLine("Введите размер массива: ");
-            while (!int.TryParse(Console.ReadLine(), out n) || ((0 > n) || (n > 100)))
+            int left = 0;
+            int right = n - 1;
+            bool swapped = true;
+
+            while (left < right && swapped)
             {
-                Console.WriteLine("Некорректный ввод. Размер массива должен быть целым положительным числом, которое меньше или равно 100.");
-                Console.WriteLine("Введите размер массива: ");
+                swapped = false;
+                for (int i = left; i < right; i++)
+                {
+                    if (ShakerArray[i] > ShakerArray[i + 1])
+                    {
+                        double temp = ShakerArray[i];
+                        ShakerArray[i] = ShakerArray[i + 1];
+                        ShakerArray[i + 1] = temp;
+                        swapped = true;
+                    }
+                }
+                right--;
+
+                for (int i = right; i > left; i--)
+                {
+                    if (ShakerArray[i] < ShakerArray[i - 1])
+                    {
+                        double temp = ShakerArray[i];
+                        ShakerArray[i] = ShakerArray[i - 1];
+                        ShakerArray[i - 1] = temp;
+                        swapped = true;
+                    }
+                }
+                left++;
             }
 
-            Console.WriteLine("\nВыберите метод заполнения массива:");
-            Console.WriteLine("1. Случайные числа");
-            Console.WriteLine("2. Ввод с клавиатуры");
+            Console.WriteLine("\nМассив после шейкер-сортировки:");
+            for (int i = 0; i < n; i++) Console.Write(ShakerArray[i] + " ");
+            Console.WriteLine();
+
+            Console.WriteLine("\nС каким из массивов продолжить работу?");
+            Console.WriteLine("1. Продолжить с измененным массивом");
+            Console.WriteLine("2. Продолжить с массивом до проведения операции");
             Console.Write("Ваш выбор (1 или 2): ");
 
-            int choice;
-            while (!int.TryParse(Console.ReadLine(), out choice) || (choice != 1 && choice != 2))
+            int how;
+            while (!int.TryParse(Console.ReadLine(), out how) || (how != 1 && how != 2))
             {
                 Console.WriteLine("Некорректный ввод. Выберите 1 или 2.");
                 Console.Write("Ваш выбор (1 или 2): ");
             }
 
-            double[] MainArray = new double[n];
-
-            switch (choice)
+            switch (how)
             {
                 case 1:
-                    Random random = new Random();
-                    for (int i = 0; i < n; i++)
-                    {
-                        MainArray[i] = Math.Round(-100 + random.NextDouble() * 200, q);
-                        if (MainArray[i] == -0)
-                            MainArray[i] = 0;
-                    }
+                    Console.WriteLine("\nОсновной массив:");
+                    for (int i = 0; i < n; i++) Console.Write(ShakerArray[i] + " ");
+                    Console.WriteLine();
                     break;
                 case 2:
-                    for (int i = 0; i < n; i++)
-                    {
-                        Console.Write($"Введите элемент {i + 1}: ");
-                        while (!double.TryParse(Console.ReadLine(), out MainArray[i]) || ((Math.Abs(MainArray[i]) > 10000)))
-                        {
-                            Console.WriteLine("Некорректный ввод числа или слишком большое число..");
-                            Console.Write($"Введите элемент {i + 1}: ");
-                        }
-                    }
+                    Console.WriteLine("\nОсновной массив:");
+                    for (int i = 0; i < n; i++) Console.Write(Array[i] + " ");
+                    Console.WriteLine();
                     break;
             }
-
-            Console.WriteLine("\nОсновной массив:");
-            for (int i = 0; i < n; i++) Console.Write(MainArray[i] + " ");
-            Console.WriteLine();
-
-            do
+        }
+        static void Main(string[] args)
+        {
             {
-                if (n == 0)
+                int n;
+                Console.WriteLine("Введите размер массива: ");
+                while (!int.TryParse(Console.ReadLine(), out n) || ((0 > n) || (n > 100)))
                 {
-                    Console.WriteLine("\nМассив пустой. Выберите дальнейшее действие:");
-                    Console.WriteLine("2. Добавление элемента с номером K в массив");
-                    Console.WriteLine("7. Выйти из программы");
-                    Console.Write("Ваш выбор (2 или 7): ");
-
-                    while (!int.TryParse(Console.ReadLine(), out choice) || ((choice != 7) && (choice != 2)))
-                    {
-                        Console.WriteLine("Некорректный ввод. Выберите число: 2 или 7");
-                        Console.Write("Ваш выбор (2 или 7): ");
-                    }
+                    Console.WriteLine("Некорректный ввод. Размер массива должен быть целым положительным числом или 0, которое меньше или равно 100.");
+                    Console.WriteLine("Введите размер массива: ");
                 }
-                else
+
+                Console.WriteLine("\nВыберите метод заполнения массива:");
+                Console.WriteLine("1. Случайные числа");
+                Console.WriteLine("2. Ввод с клавиатуры");
+                Console.Write("Ваш выбор (1 или 2): ");
+
+                int choice;
+                while (!int.TryParse(Console.ReadLine(), out choice) || (choice != 1 && choice != 2))
                 {
-                    Console.WriteLine("\nВыберите какую операцию провести с массивом:");
-                    Console.WriteLine("1. Удаление элементов с нечетными номерами");
-                    Console.WriteLine("2. Добавление элемента с номером K в массив");
-                    Console.WriteLine("3. Перевернуть массив");
-                    Console.WriteLine("4. Поиск элемента равного среднему арифметическому элементов массива");
-                    Console.WriteLine("5. Сортировка по простому выбору (от меньшего к большему)");
-                    Console.WriteLine("6. Бинарный поиск выбранного элемента");
-                    Console.WriteLine("7. Выйти из программы");
-                    Console.Write("Ваш выбор (от 1 до 7): ");
-
-                    while (!int.TryParse(Console.ReadLine(), out choice) || (choice > 7) || (choice < 0))
-                    {
-                        Console.WriteLine("Некорректный ввод. Выберите число от 1 до 7");
-                        Console.Write("Ваш выбор (от 1 до 7): ");
-                    }
+                    Console.WriteLine("Некорректный ввод. Выберите 1 или 2.");
+                    Console.Write("Ваш выбор (1 или 2): ");
                 }
+
+                double[] MainArray = new double[n];
+
 
                 switch (choice)
                 {
                     case 1:
-                        int NewN = n / 2;
-                        double[] DeleteArray = new double[NewN];
-
-                        int j = 0;
-                        for (int i = 0; i <= n - 1; i++)
+                        int q;
+                        Console.WriteLine("\nВыберите до какого числа после запятой округлять вещественные числа при генерации (введите число от 0 до 10):");
+                        while (!int.TryParse(Console.ReadLine(), out q) || ((0 > q) || (q > 10)))
                         {
-                            if ((i + 1) % 2 == 0)
-                            {
-                                DeleteArray[j] = MainArray[i];
-                                j++;
-                            }
-                        }
-                        Console.WriteLine("\nРезультат удаления:");
-                        for (int i = 0; i < NewN; i++) Console.Write(DeleteArray[i] + " ");
-                        Console.WriteLine();
-
-                        Console.WriteLine("\nС каким из массивов продолжить работу?");
-                        Console.WriteLine("1. Продолжить с измененным массивом");
-                        Console.WriteLine("2. Продолжить с массивом до проведения операции");
-                        Console.Write("Ваш выбор (1 или 2): ");
-
-                        int how;
-                        while (!int.TryParse(Console.ReadLine(), out how) || (how != 1 && how != 2))
-                        {
-                            Console.WriteLine("Некорректный ввод. Выберите 1 или 2.");
-                            Console.Write("Ваш выбор (1 или 2): ");
+                            Console.WriteLine("Некорректный ввод. В вводе должно быть число от 0 до 10.");
+                            Console.WriteLine("Выберите до какого числа округлять вещественные числа при генерации (введите число от 0 до 10):");
                         }
 
-                        switch (how)
+                        Random random = new Random();
+                        for (int i = 0; i < n; i++)
                         {
-                            case 1:
-                                n = n / 2;
-                                MainArray = DeleteArray;
-                                Console.WriteLine("\nОсновной массив:");
-                                for (int i = 0; i < n; i++) Console.Write(MainArray[i] + " ");
-                                Console.WriteLine();
-                                break;
-                            case 2:
-                                Console.WriteLine("\nОсновной массив:");
-                                for (int i = 0; i < n; i++) Console.Write(MainArray[i] + " ");
-                                Console.WriteLine();
-                                break;
+                            MainArray[i] = Math.Round(-100 + random.NextDouble() * 200, q);
+                            if (MainArray[i] == -0)
+                                MainArray[i] = 0;
                         }
                         break;
                     case 2:
-                        if (n >= 100)
-                            Console.WriteLine("\nМассив слишком большой. Число добавить нельзя.");
-                        else
+                        for (int i = 0; i < n; i++)
                         {
-                            int b;
-                            Console.WriteLine("\nВведите номер места в массиве, куда будет дописано число: ");
-                            while (!int.TryParse(Console.ReadLine(), out b) || ((0 >= b) || (b > n + 1)))
+                            Console.Write($"Введите элемент {i + 1}: ");
+                            while (!double.TryParse(Console.ReadLine(), out MainArray[i]) || ((Math.Abs(MainArray[i]) > Math.Pow(10,100))))
                             {
-                                Console.WriteLine($"Некорректный ввод. Место в массиве должно быть целым числом от 1 до {n + 1}.");
-                                Console.WriteLine("Введите номер места в массиве, куда будет дописано число: ");
+                                Console.WriteLine("Некорректный ввод числа или слишком большое число.");
+                                Console.Write($"Введите элемент {i + 1}: ");
                             }
+                        }
+                        break;
+                }
 
-                            Console.WriteLine("\nВыберите метод выбора числа для добавления в массив:");
-                            Console.WriteLine("1. Случайное число");
-                            Console.WriteLine("2. Ввод с клавиатуры");
+                Console.WriteLine("\nОсновной массив:");
+                for (int i = 0; i < n; i++) Console.Write(MainArray[i] + " ");
+                Console.WriteLine();
+
+                do
+                {
+                    if (n == 0)
+                    {
+                        Console.WriteLine("\nМассив пустой. Выберите дальнейшее действие:");
+                        Console.WriteLine("2. Добавление элемента с номером K в массив");
+                        Console.WriteLine("7. Выйти из программы");
+                        Console.Write("Ваш выбор (2 или 7): ");
+
+                        while (!int.TryParse(Console.ReadLine(), out choice) || ((choice != 7) && (choice != 2)))
+                        {
+                            Console.WriteLine("Некорректный ввод. Выберите число: 2 или 7");
+                            Console.Write("Ваш выбор (2 или 7): ");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("\nВыберите какую операцию провести с массивом:");
+                        Console.WriteLine("1. Удаление элементов с нечетными номерами");
+                        Console.WriteLine("2. Добавление элемента с номером K в массив");
+                        Console.WriteLine("3. Перевернуть массив");
+                        Console.WriteLine("4. Поиск элемента равного среднему арифметическому элементов массива");
+                        Console.WriteLine("5. Сортировка по простому выбору (от меньшего к большему)");
+                        Console.WriteLine("6. Бинарный поиск выбранного элемента");
+                        Console.WriteLine("7. Шейкер-сортировка");
+                        Console.WriteLine("8. Выйти из программы");
+                        Console.Write("Ваш выбор (от 1 до 8): ");
+
+                        while (!int.TryParse(Console.ReadLine(), out choice) || (choice > 8) || (choice < 0))
+                        {
+                            Console.WriteLine("Некорректный ввод. Выберите число от 1 до 8");
+                            Console.Write("Ваш выбор (от 1 до 8): ");
+                        }
+                    }
+
+                    switch (choice)
+                    {
+                        case 1:
+                            int NewN = n / 2;
+                            double[] DeleteArray = new double[NewN];
+
+                            int j = 0;
+                            for (int i = 0; i <= n - 1; i++)
+                            {
+                                if ((i + 1) % 2 == 0)
+                                {
+                                    DeleteArray[j] = MainArray[i];
+                                    j++;
+                                }
+                            }
+                            Console.WriteLine("\nРезультат удаления:");
+                            for (int i = 0; i < NewN; i++) Console.Write(DeleteArray[i] + " ");
+                            Console.WriteLine();
+
+
+                            Console.WriteLine("\nС каким из массивов продолжить работу?");
+                            Console.WriteLine("1. Продолжить с измененным массивом");
+                            Console.WriteLine("2. Продолжить с массивом до проведения операции");
                             Console.Write("Ваш выбор (1 или 2): ");
 
-                            while (!int.TryParse(Console.ReadLine(), out choice) || (choice != 1 && choice != 2))
+                            int how;
+                            while (!int.TryParse(Console.ReadLine(), out how) || (how != 1 && how != 2))
                             {
                                 Console.WriteLine("Некорректный ввод. Выберите 1 или 2.");
                                 Console.Write("Ваш выбор (1 или 2): ");
                             }
 
-                            double[] AddArray = new double[(n + 1)];
-
-                            switch (choice)
+                            switch (how)
                             {
                                 case 1:
-                                    Random random = new Random();
-                                    double number = Math.Round(-100 + random.NextDouble() * 200, q);
-
-                                    int x = 0;
-                                    for (int i = 0; i <= n; i++)
-                                    {
-                                        int z = i - x;
-                                        if (i == (b - 1))
-                                        {
-                                            AddArray[i] = number;
-                                            x = 1;
-                                        }
-                                        else
-                                            AddArray[i] = MainArray[z];
-                                    }
-                                    Console.WriteLine("\nРезультат добавления:");
-                                    for (int i = 0; i <= n; i++) Console.Write(AddArray[i] + " ");
+                                    n = n / 2;
+                                    MainArray = DeleteArray;
+                                    Console.WriteLine("\nОсновной массив:");
+                                    for (int i = 0; i < n; i++) Console.Write(MainArray[i] + " ");
                                     Console.WriteLine();
-
-                                    Console.WriteLine("\nС каким из массивов продолжить работу?");
-                                    Console.WriteLine("1. Продолжить с измененным массивом");
-                                    Console.WriteLine("2. Продолжить с массивом до проведения операции");
-                                    Console.Write("Ваш выбор (1 или 2): ");
-
-                                    while (!int.TryParse(Console.ReadLine(), out how) || (how != 1 && how != 2))
-                                    {
-                                        Console.WriteLine("Некорректный ввод. Выберите 1 или 2.");
-                                        Console.Write("Ваш выбор (1 или 2): ");
-                                    }
-
-                                    switch (how)
-                                    {
-                                        case 1:
-                                            n++;
-                                            MainArray = AddArray;
-                                            Console.WriteLine("\nОсновной массив:");
-                                            for (int i = 0; i < n; i++) Console.Write(MainArray[i] + " ");
-                                            Console.WriteLine();
-                                            break;
-                                        case 2:
-                                            Console.WriteLine("\nОсновной массив:");
-                                            for (int i = 0; i < n; i++) Console.Write(MainArray[i] + " ");
-                                            Console.WriteLine();
-                                            break;
-                                    }
                                     break;
                                 case 2:
-                                    Console.Write($"\nВведите число для добавления в массив: ");
-                                    while (!double.TryParse(Console.ReadLine(), out number) || ((Math.Abs(number) > 10000)))
-                                    {
-                                        Console.WriteLine("Некорректный ввод числа или слишком большое число..");
-                                        Console.Write($"Введите число для добавления в массив: ");
-                                    }
+                                    Console.WriteLine("\nОсновной массив:");
+                                    for (int i = 0; i < n; i++) Console.Write(MainArray[i] + " ");
+                                    Console.WriteLine();
+                                    break;
+                            }
+                            break;
+                        case 2:
+                            if (n >= 100)
+                                Console.WriteLine("\nМассив слишком большой. Число добавить нельзя.");
+                            else
+                            {
+                                int b;
+                                Console.WriteLine($"\nВведите номер места в массиве, куда будет дописано число (от 1 до {n + 1}): ");
+                                while (!int.TryParse(Console.ReadLine(), out b) || ((0 >= b) || (b > n + 1)))
+                                {
+                                    Console.WriteLine($"Некорректный ввод. Место в массиве должно быть целым числом от 1 до {n + 1}.");
+                                    Console.WriteLine($"Введите номер места в массиве, куда будет дописано число (от 1 до {n + 1}): ");
+                                }
 
-                                    for (int i = 0; i <= n; i++)
-                                    {
-                                        x = 0;
-                                        for (i = 0; i <= n; i++)
+                                Console.WriteLine("\nВыберите метод выбора числа для добавления в массив:");
+                                Console.WriteLine("1. Случайное число");
+                                Console.WriteLine("2. Ввод с клавиатуры");
+                                Console.Write("Ваш выбор (1 или 2): ");
+
+                                while (!int.TryParse(Console.ReadLine(), out choice) || (choice != 1 && choice != 2))
+                                {
+                                    Console.WriteLine("Некорректный ввод. Выберите 1 или 2.");
+                                    Console.Write("Ваш выбор (1 или 2): ");
+                                }
+
+                                double[] AddArray = new double[(n + 1)];
+
+                                switch (choice)
+                                {
+                                    case 1:
+                                        int q;
+                                        Console.WriteLine("\nВыберите до какого числа после запятой округлять вещественное число при генерации (введите число от 0 до 10):");
+                                        while (!int.TryParse(Console.ReadLine(), out q) || ((0 > q) || (q > 10)))
+                                        {
+                                            Console.WriteLine("Некорректный ввод. В вводе должно быть число от 0 до 10.");
+                                            Console.WriteLine("Выберите до какого числа округлять вещественные числа при генерации (введите число от 0 до 10):");
+                                        }
+
+                                        Random random = new Random();
+                                        double number = Math.Round(-100 + random.NextDouble() * 200, q);
+
+                                        int x = 0;
+                                        for (int i = 0; i <= n; i++)
                                         {
                                             int z = i - x;
                                             if (i == (b - 1))
@@ -236,245 +267,284 @@ namespace Obema_Lab
                                             else
                                                 AddArray[i] = MainArray[z];
                                         }
-                                    }
-                                    Console.WriteLine("\nРезультат добавления:");
-                                    for (int i = 0; i <= n; i++) Console.Write(AddArray[i] + " ");
-                                    Console.WriteLine();
+                                        Console.WriteLine("\nРезультат добавления:");
+                                        for (int i = 0; i <= n; i++) Console.Write(AddArray[i] + " ");
+                                        Console.WriteLine();
 
-                                    Console.WriteLine("\nС каким из массивов продолжить работу?");
-                                    Console.WriteLine("1. Продолжить с измененным массивом");
-                                    Console.WriteLine("2. Продолжить с массивом до проведения операции");
-                                    Console.Write("Ваш выбор (1 или 2): ");
-
-                                    while (!int.TryParse(Console.ReadLine(), out how) || (how != 1 && how != 2))
-                                    {
-                                        Console.WriteLine("Некорректный ввод. Выберите 1 или 2.");
+                                        Console.WriteLine("\nС каким из массивов продолжить работу?");
+                                        Console.WriteLine("1. Продолжить с измененным массивом");
+                                        Console.WriteLine("2. Продолжить с массивом до проведения операции");
                                         Console.Write("Ваш выбор (1 или 2): ");
-                                    }
 
-                                    switch (how)
-                                    {
-                                        case 1:
-                                            n++;
-                                            MainArray = AddArray;
-                                            Console.WriteLine("\nОсновной массив:");
-                                            for (int i = 0; i < n; i++) Console.Write(MainArray[i] + " ");
-                                            Console.WriteLine();
-                                            break;
-                                        case 2:
-                                            Console.WriteLine("\nОсновной массив:");
-                                            for (int i = 0; i < n; i++) Console.Write(MainArray[i] + " ");
-                                            Console.WriteLine();
-                                            break;
-                                    }
+                                        while (!int.TryParse(Console.ReadLine(), out how) || (how != 1 && how != 2))
+                                        {
+                                            Console.WriteLine("Некорректный ввод. Выберите 1 или 2.");
+                                            Console.Write("Ваш выбор (1 или 2): ");
+                                        }
+
+                                        switch (how)
+                                        {
+                                            case 1:
+                                                n++;
+                                                MainArray = AddArray;
+                                                Console.WriteLine("\nОсновной массив:");
+                                                for (int i = 0; i < n; i++) Console.Write(MainArray[i] + " ");
+                                                Console.WriteLine();
+                                                break;
+                                            case 2:
+                                                Console.WriteLine("\nОсновной массив:");
+                                                for (int i = 0; i < n; i++) Console.Write(MainArray[i] + " ");
+                                                Console.WriteLine();
+                                                break;
+                                        }
+                                        break;
+                                    case 2:
+                                        Console.Write($"\nВведите число для добавления в массив: ");
+                                        while (!double.TryParse(Console.ReadLine(), out number) || ((Math.Abs(number) > Math.Pow(10,100))))
+                                        {
+                                            Console.WriteLine("Некорректный ввод числа или слишком большое число.");
+                                            Console.Write($"Введите число для добавления в массив: ");
+                                        }
+
+
+                                        for (int i = 0; i <= n; i++)
+                                        {
+                                            x = 0;
+                                            for (i = 0; i <= n; i++)
+                                            {
+                                                int z = i - x;
+                                                if (i == (b - 1))
+                                                {
+                                                    AddArray[i] = number;
+                                                    x = 1;
+                                                }
+                                                else
+                                                    AddArray[i] = MainArray[z];
+                                            }
+                                        }
+                                        Console.WriteLine("\nРезультат добавления:");
+                                        for (int i = 0; i <= n; i++) Console.Write(AddArray[i] + " ");
+                                        Console.WriteLine();
+
+                                        Console.WriteLine("\nС каким из массивов продолжить работу?");
+                                        Console.WriteLine("1. Продолжить с измененным массивом");
+                                        Console.WriteLine("2. Продолжить с массивом до проведения операции");
+                                        Console.Write("Ваш выбор (1 или 2): ");
+
+                                        while (!int.TryParse(Console.ReadLine(), out how) || (how != 1 && how != 2))
+                                        {
+                                            Console.WriteLine("Некорректный ввод. Выберите 1 или 2.");
+                                            Console.Write("Ваш выбор (1 или 2): ");
+                                        }
+
+                                        switch (how)
+                                        {
+                                            case 1:
+                                                n++;
+                                                MainArray = AddArray;
+                                                Console.WriteLine("\nОсновной массив:");
+                                                for (int i = 0; i < n; i++) Console.Write(MainArray[i] + " ");
+                                                Console.WriteLine();
+                                                break;
+                                            case 2:
+                                                Console.WriteLine("\nОсновной массив:");
+                                                for (int i = 0; i < n; i++) Console.Write(MainArray[i] + " ");
+                                                Console.WriteLine();
+                                                break;
+                                        }
+                                        break;
+                                }
+                            }
+                            break;
+                        case 3:
+                            double[] ReverseArray = new double[n];
+
+                            int f = 1;
+                            for (int i = 0; i <= (n - 1); i++)
+                            {
+                                ReverseArray[i] = MainArray[n - f];
+                                f++;
+                            }
+                            Console.WriteLine("\nПеревернутый массив:");
+                            for (int i = 0; i < n; i++) Console.Write(ReverseArray[i] + " ");
+                            Console.WriteLine();
+
+                            Console.WriteLine("\nС каким из массивов продолжить работу?");
+                            Console.WriteLine("1. Продолжить с измененным массивом");
+                            Console.WriteLine("2. Продолжить с массивом до проведения операции");
+                            Console.Write("Ваш выбор (1 или 2): ");
+
+
+                            while (!int.TryParse(Console.ReadLine(), out how) || (how != 1 && how != 2))
+                            {
+                                Console.WriteLine("Некорректный ввод. Выберите 1 или 2.");
+                                Console.Write("Ваш выбор (1 или 2): ");
+                            }
+
+                            switch (how)
+                            {
+                                case 1:
+                                    MainArray = ReverseArray;
+                                    Console.WriteLine("\nОсновной массив:");
+                                    for (int i = 0; i < n; i++) Console.Write(MainArray[i] + " ");
+                                    Console.WriteLine();
+                                    break;
+                                case 2:
+                                    Console.WriteLine("\nОсновной массив:");
+                                    for (int i = 0; i < n; i++) Console.Write(MainArray[i] + " ");
+                                    Console.WriteLine();
                                     break;
                             }
-                        }
-                        break;
-                    case 3:
-                        double[] ReverseArray = new double[n];
+                            break;
+                        case 4:
+                            double sum = 0;
 
-                        int f = 1;
-                        for (int i = 0; i <= (n - 1); i++)
-                        {
-                            ReverseArray[i] = MainArray[n - f];
-                            f++;
-                        }
-                        Console.WriteLine("\nПеревернутый массив:");
-                        for (int i = 0; i < n; i++) Console.Write(ReverseArray[i] + " ");
-                        Console.WriteLine();
+                            for (int i = 0; i <= n - 1; i++)
+                                sum += MainArray[i];
 
-                        Console.WriteLine("\nС каким из массивов продолжить работу?");
-                        Console.WriteLine("1. Продолжить с измененным массивом");
-                        Console.WriteLine("2. Продолжить с массивом до проведения операции");
-                        Console.Write("Ваш выбор (1 или 2): ");
+                            double target = sum / n;
 
-                        while (!int.TryParse(Console.ReadLine(), out how) || (how != 1 && how != 2))
-                        {
-                            Console.WriteLine("Некорректный ввод. Выберите 1 или 2.");
-                            Console.Write("Ваш выбор (1 или 2): ");
-                        }
+                            int search = 0;
+                            int count = 0;
+                            for (int i = 0; i <= n - 1; i++)
+                            {
+                                if (search == 0)
+                                    count += 1;
+                                if (target == MainArray[i])
+                                    search += 1;
+                            }
 
-                        switch (how)
-                        {
-                            case 1:
-                                MainArray = ReverseArray;
-                                Console.WriteLine("\nОсновной массив:");
-                                for (int i = 0; i < n; i++) Console.Write(MainArray[i] + " ");
-                                Console.WriteLine();
-                                break;
-                            case 2:
-                                Console.WriteLine("\nОсновной массив:");
-                                for (int i = 0; i < n; i++) Console.Write(MainArray[i] + " ");
-                                Console.WriteLine();
-                                break;
-                        }
-                        break;
-                    case 4:
-                        double sum = 0;
-
-                        for (int i = 0; i <= n - 1; i++)
-                        {
-                            sum += MainArray[i];
-                        }
-
-                        double target = sum / n;
-
-                        int search = 0;
-                        int count = 0;
-                        for (int i = 0; i <= n - 1; i++)
-                        {
-                            if (search == 0)
-                                count += 1;
-                            if (target == MainArray[i])
-                                search += 1;
-                        }
-
-                        if (search != 0)
-                        {
-                            Console.WriteLine($"\nЧисло {target} найдено в массиве. Количество таких чисел: {search}.");
-                            Console.WriteLine($"Количество сравнений для нахождения первого числа: {count}");
-                        }
-                        else
-                        {
-                            if (n == 0)
-                                Console.WriteLine($"\nЧисло не найдено. В массиве нет чисел.");
+                            if (search != 0)
+                            {
+                                Console.WriteLine($"\nЧисло {target} найдено в массиве. Количество таких чисел: {search}.");
+                                Console.WriteLine($"Количество сравнений для нахождения первого числа: {count}");
+                            }
                             else
                             {
                                 Console.WriteLine($"\nЧисло {target} не найдено в массиве.");
                                 Console.WriteLine($"Количество сравнений: {count}");
                             }
-                        }
-                        break;
-                    case 5:
-                        double[] SortArray = MainArray;
+                            break;
+                        case 5:
+                            double[] SortArray = MainArray;
 
-                        for (int i = 0; i <= n - 1; i++)
-                        {
-                            int minIndex = i;
-                            for (j = i + 1; j < n; j++)
+                            for (int i = 0; i <= n - 1; i++)
                             {
-                                if (SortArray[j] < SortArray[minIndex])
+                                int minIndex = i;
+                                for (j = i + 1; j < n; j++)
                                 {
-                                    minIndex = j;
+                                    if (SortArray[j] < SortArray[minIndex])
+                                        minIndex = j;
+                                }
+
+                                if (minIndex != i)
+                                {
+                                    double temp = SortArray[i];
+                                    SortArray[i] = SortArray[minIndex];
+                                    SortArray[minIndex] = temp;
                                 }
                             }
+                            Console.WriteLine("\nРезультат сортировки:");
+                            for (int i = 0; i < n; i++) Console.Write(SortArray[i] + " ");
+                            Console.WriteLine();
 
-                            if (minIndex != i)
-                            {
-                                double temp = SortArray[i];
-                                SortArray[i] = SortArray[minIndex];
-                                SortArray[minIndex] = temp;
-                            }
-                        }
-                        Console.WriteLine("\nРезультат сортировки:");
-                        for (int i = 0; i < n; i++) Console.Write(SortArray[i] + " ");
-                        Console.WriteLine();
-
-                        Console.WriteLine("\nС каким из массивов продолжить работу?");
-                        Console.WriteLine("1. Продолжить с измененным массивом");
-                        Console.WriteLine("2. Продолжить с массивом до проведения операции");
-                        Console.Write("Ваш выбор (1 или 2): ");
-
-                        while (!int.TryParse(Console.ReadLine(), out how) || (how != 1 && how != 2))
-                        {
-                            Console.WriteLine("Некорректный ввод. Выберите 1 или 2.");
+                            Console.WriteLine("\nС каким из массивов продолжить работу?");
+                            Console.WriteLine("1. Продолжить с измененным массивом");
+                            Console.WriteLine("2. Продолжить с массивом до проведения операции");
                             Console.Write("Ваш выбор (1 или 2): ");
-                        }
 
-                        switch (how)
-                        {
-                            case 1:
-                                MainArray = SortArray;
-                                Console.WriteLine("\nОсновной массив:");
-                                for (int i = 0; i < n; i++) Console.Write(MainArray[i] + " ");
-                                Console.WriteLine();
-                                break;
-                            case 2:
-                                Console.WriteLine("\nОсновной массив:");
-                                for (int i = 0; i < n; i++) Console.Write(MainArray[i] + " ");
-                                Console.WriteLine();
-                                break;
-                        }
-                        break;
-                    case 6:
-                        Console.Write($"\nВведите число для поиска в массиве: ");
-                        while (!double.TryParse(Console.ReadLine(), out target) || ((Math.Abs(target) > 10000)))
-                        {
-                            Console.WriteLine("Некорректный ввод числа или слишком большое число..");
-                            Console.Write($"Введите число для поиска в массиве: ");
-                        }
 
-                        double[] BinArray = MainArray;
-
-                        for (int i = 0; i < n - 1; i++)
-                        {
-                            int minIndex = i;
-                            for (j = i + 1; j < n; j++)
+                            while (!int.TryParse(Console.ReadLine(), out how) || (how != 1 && how != 2))
                             {
-                                if (BinArray[j] < BinArray[minIndex])
+                                Console.WriteLine("Некорректный ввод. Выберите 1 или 2.");
+                                Console.Write("Ваш выбор (1 или 2): ");
+                            }
+
+                            switch (how)
+                            {
+                                case 1:
+                                    MainArray = SortArray;
+                                    Console.WriteLine("\nОсновной массив:");
+                                    for (int i = 0; i < n; i++) Console.Write(MainArray[i] + " ");
+                                    Console.WriteLine();
+                                    break;
+                                case 2:
+                                    Console.WriteLine("\nОсновной массив:");
+                                    for (int i = 0; i < n; i++) Console.Write(MainArray[i] + " ");
+                                    Console.WriteLine();
+                                    break;
+                            }
+                            break;
+                        case 6:
+                            Console.Write($"\nВведите число для поиска в массиве: ");
+                            while (!double.TryParse(Console.ReadLine(), out target) || ((Math.Abs(target) > Math.Pow(10,100))))
+                            {
+                                Console.WriteLine("Некорректный ввод числа или слишком большое число.");
+                                Console.Write($"Введите число для поиска в массиве: ");
+                            }
+
+                            double[] BinArray = MainArray;
+
+                            for (int i = 0; i < n - 1; i++)
+                            {
+                                int minIndex = i;
+                                for (j = i + 1; j < n; j++)
                                 {
-                                    minIndex = j;
+                                    if (BinArray[j] < BinArray[minIndex])
+                                        minIndex = j;
+                                }
+
+                                if (minIndex != i)
+                                {
+                                    double temp = BinArray[i];
+                                    BinArray[i] = BinArray[minIndex];
+                                    BinArray[minIndex] = temp;
                                 }
                             }
 
-                            if (minIndex != i)
-                            {
-                                double temp = BinArray[i];
-                                BinArray[i] = BinArray[minIndex];
-                                BinArray[minIndex] = temp;
-                            }
-                        }
+                            int left = 0;
+                            int right = n - 1;
+                            int comparisons = 0;
+                            int index = -1;
 
-                        int left = 0;
-                        int right = n - 1;
-                        int comparisons = 0;
-                        int index = -1;
-
-                        while (left <= right)
-                        {
-                            int mid = left + (right - left) / 2;
-                            comparisons++;
-
-                            if (BinArray[mid] == target)
+                            while (left <= right)
                             {
-                                index = mid;
-                                break;
-                            }
-                            else if (BinArray[mid] < target)
-                            {
-                                left = mid + 1;
-                            }
-                            else
-                            {
-                                right = mid - 1;
-                            }
-                        }
+                                int mid = left + (right - left) / 2;
+                                comparisons++;
 
-                        if (index != -1)
-                        {
-                            Console.WriteLine($"\nЧисло {target} найдено в массиве.");
-                            Console.WriteLine($"Количество сравнений: {comparisons}");
-                        }
-                        else
-                        {
-                            if (n == 0)
-                                Console.WriteLine($"\nЧисло не найдено. В массиве нет чисел.");
+                                if (BinArray[mid] == target)
+                                {
+                                    index = mid;
+                                    break;
+                                }
+                                else if (BinArray[mid] < target)
+                                    left = mid + 1;
+                                else
+                                    right = mid - 1;
+                            }
+
+
+                            if (index != -1)
+                            {
+                                Console.WriteLine($"\nЧисло {target} найдено в массиве.");
+                                Console.WriteLine($"Количество сравнений: {comparisons}");
+                            }
                             else
                             {
                                 Console.WriteLine($"\nЧисло {target} не найдено в массиве.");
                                 Console.WriteLine($"Количество сравнений: {comparisons}");
                             }
-                        }
-                        break;
-                    case 7:
-                        Console.WriteLine("Выход из программы...");
-                        break;
-                }
-            } while (choice != 7);
-
-            Console.ReadLine();
-
+                            break;
+                        case 7:
+                            ShakerSort(MainArray, n);
+                            break;
+                        case 8:
+                            Console.WriteLine("Выход из программы...");
+                            break;
+                    }
+                } while (choice != 8);
+                Console.ReadLine();
+            }
         }
     }
 }
